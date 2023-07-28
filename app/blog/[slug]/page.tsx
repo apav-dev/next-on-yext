@@ -41,7 +41,8 @@ export async function generateStaticParams() {
 export default async function Blog({ params }: Props) {
   // deduped
   const blogsResponse: { response: { docs: Blog[] } } = await fetch(
-    `https://cdn.yextapis.com/v2/accounts/me/content/blogs?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701&slug=${params.slug}`
+    `https://cdn.yextapis.com/v2/accounts/me/content/blogs?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701&slug=${params.slug}`,
+    { next: { tags: [params.slug] } }
   ).then((res) => res.json());
 
   const blog = blogsResponse.response.docs[0];

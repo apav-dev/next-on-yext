@@ -9,7 +9,8 @@ import Image from "next/image";
 // 4. Repeat the same for Blog Post pages
 export default async function Home() {
   const homeResponse: { response: { docs: Home[] } } = await fetch(
-    `https://cdn.yextapis.com/v2/accounts/me/content/home?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701`
+    `https://cdn.yextapis.com/v2/accounts/me/content/home?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701`,
+    { next: { tags: ["home"] } }
   ).then((res) => res.json());
 
   const home = homeResponse.response.docs[0];
