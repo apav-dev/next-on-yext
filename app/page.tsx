@@ -3,12 +3,10 @@ import { Home } from "@/types/autogen";
 import { formatDate } from "@/utils";
 import Image from "next/image";
 
-// 1. Generate Type for the Home API call
-// 2. Create a function to call the API and make it a static page
-// 3. Set up ISR
-// 4. Deploy to Vercel and test page speed
-// 5. Add a blog post and see if it updates
-// 6. Repeat the same for Blog Post pages
+// 1. Set up ISR
+// 2. Deploy to Vercel and test page speed
+// 3. Add a blog post and see if it updates
+// 4. Repeat the same for Blog Post pages
 export default async function Home() {
   const homeResponse: { response: { docs: Home[] } } = await fetch(
     `https://cdn.yextapis.com/v2/accounts/me/content/home?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701`
