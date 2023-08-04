@@ -6,7 +6,7 @@ import { Blog } from "@/types/autogen";
 import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
-  params: { slug: string };
+  params: { slug: string; id: string };
 }
 
 export async function generateMetadata(
@@ -35,6 +35,7 @@ export async function generateStaticParams() {
 
   return blogResponse.response.docs.map((blog) => ({
     slug: blog.slug,
+    id: blog.id,
   }));
 }
 
@@ -42,7 +43,7 @@ export default async function Blog({ params }: Props) {
   // deduped
   const blogsResponse: { response: { docs: Blog[] } } = await fetch(
     `https://cdn.yextapis.com/v2/accounts/me/content/blogs?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701&slug=${params.slug}`,
-    { next: { tags: [params.slug] } }
+    { next: { tags: [params.id] } }
   ).then((res) => res.json());
 
   const blog = blogsResponse.response.docs[0];

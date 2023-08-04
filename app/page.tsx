@@ -10,7 +10,7 @@ import Image from "next/image";
 export default async function Home() {
   const homeResponse: { response: { docs: Home[] } } = await fetch(
     `https://cdn.yextapis.com/v2/accounts/me/content/home?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701`,
-    { next: { tags: ["home"] } }
+    { next: { tags: ["id"] } }
   ).then((res) => res.json());
 
   const home = homeResponse.response.docs[0];

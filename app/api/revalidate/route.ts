@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 
-export async function GET(request: NextRequest) {
-  const tag = request.nextUrl.searchParams.get("tag");
-  revalidateTag(tag ?? "");
-  return NextResponse.json({ revalidated: true, now: Date.now() });
+export async function POST(request: NextRequest) {
+  if (request.body) {
+    const body = await request.json();
+
+    if (body.entityId) {
+      revalidateTag(body.entityId);
+      return NextResponse.json({ revalidated: true, now: Date.now() });
+    }
+  }
 }
