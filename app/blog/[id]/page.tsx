@@ -6,7 +6,7 @@ import { Blog } from "@/types/autogen";
 import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
-  params: { slug: string; id: string };
+  params: { id: string };
 }
 
 export async function generateMetadata(
@@ -14,13 +14,13 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const slug = params.slug;
+  const id = params.id;
 
   const blogResponse: { response: { docs: Blog[] } } = await fetch(
     `https://cdn.yextapis.com/v2/accounts/me/content/blogs?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701`
   ).then((res) => res.json());
 
-  const blog = blogResponse.response.docs.find((blog) => blog.slug === slug);
+  const blog = blogResponse.response.docs.find((blog) => blog.id === id);
 
   return {
     description: blog?.c_metaDescription,
@@ -34,15 +34,14 @@ export async function generateStaticParams() {
   ).then((res) => res.json());
 
   return blogResponse.response.docs.map((blog) => ({
-    slug: blog.slug,
     id: blog.id,
   }));
 }
 
 export default async function Blog({ params }: Props) {
-  // deduped
+  // deduped?
   const blogsResponse: { response: { docs: Blog[] } } = await fetch(
-    `https://cdn.yextapis.com/v2/accounts/me/content/blogs?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701&slug=${params.slug}`,
+    `https://cdn.yextapis.com/v2/accounts/me/content/blogs?api_key=${process.env.YEXT_CONTENT_API_KEY}&v=20230701&id=${params.id}`,
     { next: { tags: [params.id] } }
   ).then((res) => res.json());
 
